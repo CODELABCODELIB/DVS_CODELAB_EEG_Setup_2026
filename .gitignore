@@ -1,0 +1,7 @@
+.venv/
+.python-path
+__pycache__/
+*.pyc
+*.aedat4
+*.monitor.png
+*.mp4
