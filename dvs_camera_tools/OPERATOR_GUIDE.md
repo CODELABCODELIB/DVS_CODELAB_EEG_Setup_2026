@@ -20,9 +20,10 @@ cd /home/zhen/dvs_tools
 packages are already present, it keeps them. Its final message says when
 `start_recording.sh` is ready.
 
-The GitHub repository can be cloned into another folder. In that case, run
-`./install.sh` inside the cloned folder and use that folder for the commands
-below. Never put AEDAT4 data or environment files into Git.
+The GitHub repository can be cloned into another location. In that case, open
+its `dvs_camera_tools` subfolder, run `./install.sh` there, and use that
+subfolder for the commands below. Never put AEDAT4 data or environment files
+into Git.
 
 ## Check focus before recording
 
@@ -33,13 +34,13 @@ On the laboratory computer's graphical desktop, open two terminals in the code
 folder. In terminal 1 run:
 
 ```bash
-./.venv/bin/python preview_source.py
+./.venv/bin/python camera_view.py focus-source
 ```
 
 In terminal 2 run:
 
 ```bash
-./.venv/bin/python preview_two_cameras.py
+./.venv/bin/python camera_view.py focus-view
 ```
 
 Two windows show the event views. Ask somebody to move a hand at the intended
@@ -88,7 +89,7 @@ recording. To see them update automatically in two windows, open a separate
 terminal on the laboratory computer's graphical desktop and run:
 
 ```bash
-./.venv/bin/python monitor_two_cameras.py
+./.venv/bin/python camera_view.py record-view
 ```
 
 This monitor connects to the running recorder. It does not open the cameras
@@ -101,11 +102,11 @@ For a remote display on Zhen's computer, keep this SSH tunnel open locally:
 ssh -N -L 56102:127.0.0.1:56102 -L 56050:127.0.0.1:56050 dvs_lab
 ```
 
-In another local terminal, run `python3 monitor_two_cameras.py` from a local
-copy of this folder with `dv-processing` and OpenCV installed. The camera
+In another local terminal, run `python3 camera_view.py record-view` from a
+local copy of this folder with `dv-processing` and OpenCV installed. The camera
 streams listen only on the lab computer itself; the tunnel carries them to the
-local viewer. The same tunnel and `preview_two_cameras.py` can be used for the
-pre-recording focus preview.
+local viewer. The same tunnel and `python3 camera_view.py focus-view` can be
+used for the pre-recording focus preview.
 
 If you prefer less frequent updates, start the recorder with
 `--monitor-interval 30` for one update every 30 seconds per camera.
