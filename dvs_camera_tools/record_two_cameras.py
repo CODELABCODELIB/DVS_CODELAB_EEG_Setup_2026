@@ -16,7 +16,7 @@ import dv_processing as dv
 
 CAMERAS = ("DXAS0102", "DXAS0050")
 MONITOR_PORTS = {"DXAS0102": 56102, "DXAS0050": 56050}
-DEFAULT_OUTPUT_ROOT = Path("/home/zhen/dvs_cam")
+DEFAULT_OUTPUT_ROOT = Path("/var/dvs_data")
 
 
 def record_camera(serial: str, output_path: Path, monitor_interval: float, stop_event) -> None:
@@ -94,7 +94,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--session",
-        default=datetime.now().strftime("experiment_%Y%m%d_%H%M%S"),
+        default="experiment",
         help="Name used for both output files",
     )
     parser.add_argument(
@@ -119,6 +119,7 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
+    recording_timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     print("Checking the connected cameras...", flush=True)
     discovered = {device.serialNumber for device in dv.io.camera.discover()}
     missing = [serial for serial in CAMERAS if serial not in discovered]
@@ -127,13 +128,18 @@ def main() -> int:
         return 1
 
     output_paths = {
-        serial: args.output_root / serial / f"{args.session}_{serial}.aedat4"
+        serial: (
+            args.output_root
+            / serial
+            / f"{args.session}_{serial}_{recording_timestamp}.aedat4"
+        )
         for serial in CAMERAS
     }
     for output_path in output_paths.values():
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
     print(f"Session: {args.session}", flush=True)
+    print(f"Recording timestamp: {recording_timestamp}", flush=True)
     print("Both required cameras were found:", flush=True)
     for serial in CAMERAS:
         print(f"  {serial}", flush=True)

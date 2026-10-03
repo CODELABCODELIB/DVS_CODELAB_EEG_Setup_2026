@@ -60,14 +60,15 @@ Stop the focus preview and any other software using the cameras. Then run:
 ./start_recording.sh --session participant_01 --monitor-interval 5
 ```
 
-Use a unique session name containing only letters, numbers, underscores, and
-hyphens. The program checks that both cameras are connected, prints the
-camera serial numbers and full output paths, then starts recording. The default
-data root on CODELABPSI is `/home/zhen/dvs_cam`:
+Use the participant or session name, containing only letters, numbers,
+underscores, and hyphens. The program adds the recording start time to both
+file names automatically, to the nearest second. The program checks that both
+cameras are connected, prints the camera serial numbers and full output paths,
+then starts recording. The default data root on CODELABPSI is `/var/dvs_data`:
 
 ```text
-/home/zhen/dvs_cam/DXAS0102/participant_01_DXAS0102.aedat4
-/home/zhen/dvs_cam/DXAS0050/participant_01_DXAS0050.aedat4
+/var/dvs_data/DXAS0102/participant_01_DXAS0102_20261003_133000.aedat4
+/var/dvs_data/DXAS0050/participant_01_DXAS0050_20261003_133000.aedat4
 ```
 
 To use a different data location, add `--output-root /path/to/data`.
@@ -79,8 +80,8 @@ period, how many new TTL pulses it received, and its total TTL count. It also
 updates an event image next to its AEDAT4 file:
 
 ```text
-/home/zhen/dvs_cam/DXAS0102/participant_01_DXAS0102.monitor.png
-/home/zhen/dvs_cam/DXAS0050/participant_01_DXAS0050.monitor.png
+/var/dvs_data/DXAS0102/participant_01_DXAS0102_20261003_133000.monitor.png
+/var/dvs_data/DXAS0050/participant_01_DXAS0050_20261003_133000.monitor.png
 ```
 
 The images show recent brightness changes. They are status snapshots, not RGB
@@ -119,7 +120,7 @@ or closing the terminal. Then inspect each file, for example:
 
 ```bash
 ./.venv/bin/python inspect_recording.py \
-  /home/zhen/dvs_cam/DXAS0050/participant_01_DXAS0050.aedat4
+  /var/dvs_data/DXAS0050/participant_01_DXAS0050_20261003_133000.aedat4
 ```
 
 The `Triggers:` count shows how many TTL pulses that camera recorded. During
